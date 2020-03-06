@@ -5,6 +5,7 @@
 import tensorflow as tf
 import numpy as np
 import  gender_train_data as train_data
+from gender_train_data import labels_text
 import  matplotlib.pyplot as plt
 import  os
 
@@ -20,8 +21,8 @@ plt.show()
 
 
 sess = tf.Session()
-graph_path=os.path.abspath('./model/my-gender-v1.0.meta')
-model=os.path.abspath('./model/')
+graph_path=os.path.abspath('./gender-recognition/model/my-gender-v1.0.meta')
+model=os.path.abspath('./gender-recognition/model/')
 
 server = tf.train.import_meta_graph(graph_path)
 server.restore(sess,tf.train.latest_checkpoint(model))
@@ -115,4 +116,4 @@ for i in range(64):
 plt.title('Pool3 64*14*12')
 plt.show()
 
-print sess.run(f_softmax,feed_dict)
+print(labels_text[np.argmax(sess.run(f_softmax,feed_dict))])

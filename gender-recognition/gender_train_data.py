@@ -1,12 +1,12 @@
 #coding=utf-8
  
-import  os
-import  numpy as np
-import  cv2
+import os
+import numpy as np
+from cv2 import cv2
 
 
 def get_img_list(dirname,flag=0):
-    rootdir= os.path.abspath('./data/'+dirname+'/')
+    rootdir= os.path.abspath(url+dirname+'/')
     list = os.listdir(rootdir) #列出文件夹下所有的目录与文件
     files=[]
     for i in range(0,len(list)):
@@ -25,8 +25,20 @@ def read_img(list,flag=0):
              images.append(cv2.imread(list[i]).flatten())
              labels.append(flag)
 
-read_img(get_img_list('male'),[0,1])
-read_img(get_img_list('female'),[1,0])
+labels_text=[]
+url = './gender-recognition/data/train/female'
+dr = os.listdir(url)
+#dr.remove('.DS_Store')
+for i,d in enumerate(dr):
+    if os.path.isdir(url+d):
+        #files.append(d)
+        flag=[0]*len(dr)
+        flag[i]=1
+        read_img(get_img_list(d),flag)
+        labels_text.append(d)
+        #read_img(get_img_list(''),[1,0])
+
+
 
 images = np.array(images)
 labels = np.array(labels)
